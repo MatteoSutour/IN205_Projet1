@@ -62,28 +62,5 @@ public class Board{
             }
             System.out.println();
         }
-/*
-        System.out.println("\nFrappes :");
-        for (int i = 0; i < marge + 1;i++) System.out.print(" ");
-        for (char c = 'A'; c <= 'A' + taille - 1; c++) System.out.print(c + " ");
-        System.out.println();
-
-        for (int i = 1; i <= taille; i++){
-            System.out.print(i + " ");
-            int reste = 0;
-            int temp = i;
-            while (temp >= 1){
-            temp /= 10;
-            reste++;
-            }
-            reste = marge - reste;
-            for (int j = 0; j < reste; j++){
-                System.out.print(" ");
-            }
-            for (int j = 1; j <= taille; j++){
-                System.out.print(". ");
-            }
-            System.out.println();
-        }*/
     }
 }
