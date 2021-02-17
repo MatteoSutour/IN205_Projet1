@@ -14,9 +14,14 @@ public class Board{
     public Board(String nom){
         this(nom, 10);
     }
+    
+    private String nString(int n, String s){
+        String result = s;
+        for (int i = 1; i < n; i++) result += s;
+        return result;
+    }
 
     public void print(){
-        System.out.println("Navires :");
         int taille = this.navires.length;
         int marge = 0;
         while (taille >= 1){
@@ -24,8 +29,12 @@ public class Board{
             marge++;
         }
         taille = this.navires.length;
-        for (int i = 0; i < marge + 1;i++) System.out.print(" ");
+        System.out.println("Navires :" + nString(2*taille+marge-4, " ") + "Frappes :");
+        System.out.print(nString(marge+1, " "));
         for (char c = 'A'; c <= 'A' + taille - 1; c++) System.out.print(c + " ");
+        System.out.print(nString(4+marge+1, " "));
+        for (char c = 'A'; c <= 'A' + taille - 1; c++) System.out.print(c + " ");
+
         System.out.println();
 
         for (int i = 1; i <= taille; i++){
@@ -43,9 +52,17 @@ public class Board{
             for (int j = 1; j <= taille; j++){
                 System.out.print(". ");
             }
+            System.out.print(nString(4, " "));
+            System.out.print(i + " ");
+            for (int j = 0; j < reste; j++){
+                System.out.print(" ");
+            }
+            for (int j = 1; j <= taille; j++){
+                System.out.print(". ");
+            }
             System.out.println();
         }
-
+/*
         System.out.println("\nFrappes :");
         for (int i = 0; i < marge + 1;i++) System.out.print(" ");
         for (char c = 'A'; c <= 'A' + taille - 1; c++) System.out.print(c + " ");
@@ -67,6 +84,6 @@ public class Board{
                 System.out.print(". ");
             }
             System.out.println();
-        }
+        }*/
     }
 }
