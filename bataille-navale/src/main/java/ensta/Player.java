@@ -48,23 +48,21 @@ public class Player {
             }
             catch(Exception e){
                 System.out.println(e);
-                break;
             }
 
-            if (res.orientation == "n"){
-                ships[i].orientation = Orientation.NORTH;
+            if(res.orientation.equals("n")){
+                s.orientation = Orientation.NORTH;
             }
-            if (res.orientation == "s"){
-                ships[i].orientation = Orientation.SOUTH;
+            if(res.orientation.equals("s")){
+                s.orientation = Orientation.SOUTH;
             }
-            if (res.orientation == "e"){
-                ships[i].orientation = Orientation.EAST;
+            if(res.orientation.equals("e")){
+                s.orientation = Orientation.EAST;
             }
-            if (res.orientation == "w"){
-                ships[i].orientation = Orientation.WEST;
+            if(res.orientation.equals("w")){
+                s.orientation = Orientation.WEST;
             }
-
-            board.putShip(ships[i], res.x + 1, res.y + 1);
+            board.putShip(s, res.x + 1, res.y + 1);
 
             // TODO when ship placement successful
             ++i;
