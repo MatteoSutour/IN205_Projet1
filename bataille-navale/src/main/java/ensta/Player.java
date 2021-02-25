@@ -36,19 +36,26 @@ public class Player {
             AbstractShip s = ships[i];
             String msg = String.format("placer %d : %s(%d)", i + 1, s.getNom(), s.getTaille());
             System.out.println(msg);
-            InputHelper.ShipInput res = InputHelper.readShipInput();
-            
-            // TODO set ship orientation
-            // TODO put ship at given position
 
-            try{
-                if((res.x < 0 || res.x >= this.board.getSize()) || (res.y < 0 || res.y >= this.board.getSize())){
-                    throw new Exception("[Exception] Bateau en dehors du plateau.");
+            boolean exception;
+            InputHelper.ShipInput res;
+            do{
+                exception = false;
+                res = InputHelper.readShipInput();
+            
+                // TODO set ship orientation
+                // TODO put ship at given position
+
+                try{
+                    if((res.x < 0 || res.x >= this.board.getSize()) || (res.y < 0 || res.y >= this.board.getSize())){
+                        exception = true;
+                        throw new Exception("[Exception] Bateau en dehors du plateau.");
+                    }
                 }
-            }
-            catch(Exception e){
-                System.out.println(e);
-            }
+                catch(Exception e){
+                    System.out.println(e);
+                }
+            } while(exception == true);
 
             if(res.orientation.equals("n")){
                 s.orientation = Orientation.NORTH;
