@@ -68,8 +68,8 @@ public class Player {
             }
             if(res.orientation.equals("w")){
                 s.orientation = Orientation.WEST;
-            }
-            board.putShip(s, res.x + 1, res.y + 1);
+            };
+            board.putShip(s, res.x, res.y);
 
             // TODO when ship placement successful
             ++i;

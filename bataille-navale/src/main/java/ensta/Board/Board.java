@@ -2,13 +2,13 @@ package ensta;
 
 public class Board implements IBoard{
     private String nom;
-    private char navires[][];
-    private boolean frappes[][];
+    private ShipState navires[][];
+    private Boolean frappes[][];
 
     public Board(String nom, int taille){
         this.nom = nom;
-        this.navires = new char[taille][taille];
-        this.frappes = new boolean[taille][taille];
+        this.navires = new ShipState[taille][taille];
+        this.frappes = new Boolean[taille][taille];
     }
 
     public Board(String nom){
@@ -50,7 +50,7 @@ public class Board implements IBoard{
                 System.out.print(" ");
             }
             for (int j = 1; j <= taille; j++){
-                if (this.hasShip(i, j)) System.out.print(this.navires[i-1][j-1] + " ");
+                if (this.hasShip(i-1, j-1)) System.out.print(this.navires[i-1][j-1].toString() + " ");
                 else System.out.print(". ");
             }
             System.out.print(nString(4, " "));
@@ -59,8 +59,9 @@ public class Board implements IBoard{
                 System.out.print(" ");
             }
             for (int j = 1; j <= taille; j++){
-                if (this.getHit(i, j)) System.out.print("x ");
-                else System.out.print(". ");
+                if (this.getHit(i-1, j-1) == null) System.out.print(". ");
+                else if (this.getHit(i-1, j-1) == false) System.out.print("X ");
+                else if (this.getHit(i-1, j-1) == true) System.out.print(ColorUtil.colorize("X ", ColorUtil.Color.RED));
             }
             System.out.println();
         }
@@ -72,42 +73,30 @@ public class Board implements IBoard{
 
     public void putShip(AbstractShip ship, int x, int y){
         try{
-            if ((ship.orientation == Orientation.NORTH && (y - ship.taille < 0))
-            || (ship.orientation == Orientation.SOUTH && (y + ship.taille - 1 > this.getSize()))
-            || (ship.orientation == Orientation.EAST && (x + ship.taille - 1 > this.getSize()))
-            || (ship.orientation == Orientation.WEST && (x - ship.taille < 0))){
+            if ((ship.orientation == Orientation.NORTH && (y - ship.taille + 1 < 0))
+            || (ship.orientation == Orientation.SOUTH && (y + ship.taille > this.getSize()))
+            || (ship.orientation == Orientation.EAST && (x + ship.taille > this.getSize()))
+            || (ship.orientation == Orientation.WEST && (x - ship.taille + 1 < 0))){
                 throw new Exception("[Exception] Bateau depasse du plateau.");
             }
             if (ship.orientation == Orientation.NORTH){
                 for (int i = y; i > y - ship.taille; i--){
-                    if ((this.navires[i-1][x-1] == 'D')
-                    || (this.navires[i-1][x-1] == 'S')
-                    || (this.navires[i-1][x-1] == 'B')
-                    || (this.navires[i-1][x-1] == 'C')) throw new Exception("[Exception] Bateaux se chevauchent.");
+                    if (this.hasShip(i, x)) throw new Exception("[Exception] Bateaux se chevauchent.");
                 }
             }
             if (ship.orientation == Orientation.SOUTH){
                 for (int i = y; i < y + ship.taille; i++){
-                    if ((this.navires[i-1][x-1] == 'D')
-                    || (this.navires[i-1][x-1] == 'S')
-                    || (this.navires[i-1][x-1] == 'B')
-                    || (this.navires[i-1][x-1] == 'C')) throw new Exception("[Exception] Bateaux se chevauchent.");
+                    if (this.hasShip(i, x)) throw new Exception("[Exception] Bateaux se chevauchent.");
                 }
             }
             if (ship.orientation == Orientation.EAST){
                 for (int j = x; j < x + ship.taille; j++){
-                    if ((this.navires[y-1][j-1] == 'D')
-                    || (this.navires[y-1][j-1] == 'S')
-                    || (this.navires[y-1][j-1] == 'B')
-                    || (this.navires[y-1][j-1] == 'C')) throw new Exception("[Exception] Bateaux se chevauchent.");
+                    if (this.hasShip(y, j)) throw new Exception("[Exception] Bateaux se chevauchent.");
                 }
             }
             if (ship.orientation == Orientation.WEST){
                 for (int j = x; j > x - ship.taille; j--){
-                    if ((this.navires[y-1][j-1] == 'D')
-                    || (this.navires[y-1][j-1] == 'S')
-                    || (this.navires[y-1][j-1] == 'B')
-                    || (this.navires[y-1][j-1] == 'C')) throw new Exception("[Exception] Bateaux se chevauchent.");
+                    if (this.hasShip(y, j)) throw new Exception("[Exception] Bateaux se chevauchent.");
                 }
             }
         }
@@ -117,39 +106,36 @@ public class Board implements IBoard{
         }
         if (ship.orientation == Orientation.NORTH){
             for (int i = y; i > y - ship.taille; i--){
-                this.navires[i-1][x-1] = ship.label;
+                this.navires[i][x] = new ShipState(ship);
             }
         }
         if (ship.orientation == Orientation.SOUTH){
             for (int i = y; i < y + ship.taille; i++){
-                this.navires[i-1][x-1] = ship.label;
+                this.navires[i][x] = new ShipState(ship);
             }
         }
         if (ship.orientation == Orientation.EAST){
             for (int j = x; j < x + ship.taille; j++){
-                this.navires[y-1][j-1] = ship.label;
+                this.navires[y][j] = new ShipState(ship);
             }
         }
         if (ship.orientation == Orientation.WEST){
             for (int j = x; j > x - ship.taille; j--){
-                this.navires[y-1][j-1] = ship.label;
+                this.navires[y][j] = new ShipState(ship);
             }
         }
     }
 
     public boolean hasShip(int x, int y){
-        if ((this.navires[x-1][y-1] == 'D')
-        || (this.navires[x-1][y-1] == 'S')
-        || (this.navires[x-1][y-1] == 'B')
-        || (this.navires[x-1][y-1] == 'C')) return true;
+        if (this.navires[x][y] != null) return true;
         else return false;
     }
 
-    public void setHit(boolean hit, int x, int y){
-        this.frappes[x-1][y-1] = hit;
+    public void setHit(Boolean hit, int x, int y){
+        this.frappes[y][x] = hit;
     }
 
     public Boolean getHit(int x, int y){
-        return this.frappes[x-1][y-1];
+        return this.frappes[x][y];
     }
 }
