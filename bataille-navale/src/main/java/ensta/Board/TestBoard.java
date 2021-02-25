@@ -13,8 +13,11 @@ class TestBoard{
         myBoard.putShip(mySubmarine, 9, 2); // Provoque l'exception "Bateau depasse du plateau".
         Submarine mySubmarine2 = new Submarine(Orientation.WEST);
         myBoard.putShip(mySubmarine2, 4, 8); // Provoque l'exception "Bateaux se chevauchent".
-        myBoard.setHit(true, 0, 1);
-        myBoard.setHit(true, 8, 5);
+        myBoard.sendHit(0, 1);
+        myBoard.sendHit(8, 5);
+        myBoard.sendHit(2, 1);
+        myBoard.sendHit(6, 4);
+        myBoard.sendHit(1, 1);
         myBoard.print();
     }
 }

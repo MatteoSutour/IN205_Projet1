@@ -35,12 +35,12 @@ public class Player {
         do {
             AbstractShip s = ships[i];
             String msg = String.format("placer %d : %s(%d)", i + 1, s.getNom(), s.getTaille());
-            System.out.println(msg);
 
             boolean exception;
             InputHelper.ShipInput res;
             do{
                 exception = false;
+                System.out.println(msg);
                 res = InputHelper.readShipInput();
             
                 // TODO set ship orientation
@@ -82,11 +82,34 @@ public class Player {
     public Hit sendHit(int[] coords) {
         boolean done = false;
         Hit hit = null;
+        int i = 0;
 
         do {
-            System.out.println("où frapper?");
-            InputHelper.CoordInput hitInput = InputHelper.readCoordInput();
+            InputHelper.CoordInput hitInput;
             // TODO call sendHit on this.opponentBoard
+
+            boolean exception;
+            do{
+                exception = false;
+                System.out.println("où frapper?");
+                hitInput = InputHelper.readCoordInput();
+                try{
+                    if((hitInput.x < 0 || hitInput.x >= opponentBoard.getSize()) || (hitInput.y < 0 || hitInput.y >= opponentBoard.getSize())){
+                        exception = true;
+                        throw new Exception("[Exception] Bateau en dehors du plateau.");
+                    }
+                }
+                catch(Exception e){
+                    System.out.println(e);
+                }
+            } while(exception == true);
+
+            this.opponentBoard.sendHit(hitInput.x, hitInput.y);
+            coords[0] = hitInput.x;
+            coords[1] = hitInput.y;
+
+            ++i;
+            done = i == 3;
 
             // TODO : Game expects sendHit to return BOTH hit result & hit coords.
             // return hit is obvious. But how to return coords at the same time ?

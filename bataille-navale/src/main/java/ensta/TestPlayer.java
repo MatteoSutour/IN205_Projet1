@@ -16,5 +16,7 @@ class TestPlayer{
         ships.add(new Carrier());
         Player myPlayer = new Player(myBoard, myOpponentBoard, ships);
         myPlayer.putShips();
+        int coords[] = new int[2];
+        myPlayer.sendHit(coords);
     }
 }

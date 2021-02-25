@@ -138,4 +138,20 @@ public class Board implements IBoard{
     public Boolean getHit(int x, int y){
         return this.frappes[x][y];
     }
+
+    public Hit sendHit(int x, int y){
+        if (this.hasShip(y, x)){
+            this.setHit(true, x, y);
+            navires[y][x].addStrike();
+            if (navires[y][x].isSunk()){
+                System.out.println(Hit.fromInt(navires[y][x].getShip().taille) + " coulé.");
+                return Hit.fromInt(navires[y][x].getShip().taille);
+            }
+            else return Hit.STRUCK;
+        }
+        else {
+            this.setHit(false, x, y);
+            return Hit.MISS;
+        }
+    }
 }
