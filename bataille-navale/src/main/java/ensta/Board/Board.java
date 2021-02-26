@@ -141,20 +141,15 @@ public class Board implements IBoard{
 
     public Hit sendHit(int x, int y){
         if (this.hasShip(x, y)){
-            this.setHit(true, x, y);
             navires[y][x].addStrike();
             if (navires[y][x].isSunk()){
-                System.out.println(Hit.fromInt(navires[y][x].getShip().taille) + " coulé.");
                 return Hit.fromInt(navires[y][x].getShip().taille);
             }
             else{
-                System.out.println("Touché.");
                 return Hit.STRUCK;
             }
         }
         else {
-            this.setHit(false, x, y);
-            System.out.println("Manqué.");
             return Hit.MISS;
         }
     }

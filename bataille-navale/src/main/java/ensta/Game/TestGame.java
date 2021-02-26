@@ -19,11 +19,15 @@ class TestGame{
         ai.putShips(ships);
         int sunkCount;
         int[] coords = new int[2];
+        Hit hit;
         do{
-            ai.sendHit(coords);
+            hit = ai.sendHit(coords);
             System.out.print("Frappe en ");
             System.out.print((char)((int)'A' + coords[0]));
-            System.out.println(coords[1]+1);
+            System.out.print(coords[1]+1);
+            System.out.print(" : ");
+            if((hit != Hit.MISS) && (hit != Hit.STRUCK)) System.out.println(hit.toString() + " coulé.");
+            else System.out.println(hit.toString());
             board.print();
             sunkCount = 0;
             for (AbstractShip s : ships){

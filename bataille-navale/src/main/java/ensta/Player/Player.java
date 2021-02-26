@@ -104,12 +104,13 @@ public class Player {
                 }
             } while(exception == true);
 
-            this.opponentBoard.sendHit(hitInput.x, hitInput.y);
+            hit = this.opponentBoard.sendHit(hitInput.x, hitInput.y);
             coords[0] = hitInput.x;
             coords[1] = hitInput.y;
+            board.setHit(hit != Hit.MISS, coords[0], coords[1]);
 
             ++i;
-            done = i == 3;
+            done = i == 1;
 
             // TODO : Game expects sendHit to return BOTH hit result & hit coords.
             // return hit is obvious. But how to return coords at the same time ?
