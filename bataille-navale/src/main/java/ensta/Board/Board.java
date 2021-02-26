@@ -74,8 +74,8 @@ public class Board implements IBoard{
     public void putShip(AbstractShip ship, int x, int y){
         try{
             if ((ship.orientation == Orientation.NORTH && (y - ship.taille + 1 < 0))
-            || (ship.orientation == Orientation.SOUTH && (y + ship.taille > this.getSize()))
-            || (ship.orientation == Orientation.EAST && (x + ship.taille > this.getSize()))
+            || (ship.orientation == Orientation.SOUTH && (y + ship.taille >= this.getSize()))
+            || (ship.orientation == Orientation.EAST && (x + ship.taille >= this.getSize()))
             || (ship.orientation == Orientation.WEST && (x - ship.taille + 1 < 0))){
                 throw new Exception("[Exception] Bateau depasse du plateau.");
             }
@@ -147,10 +147,14 @@ public class Board implements IBoard{
                 System.out.println(Hit.fromInt(navires[y][x].getShip().taille) + " coulé.");
                 return Hit.fromInt(navires[y][x].getShip().taille);
             }
-            else return Hit.STRUCK;
+            else{
+                System.out.println("Touché.");
+                return Hit.STRUCK;
+            }
         }
         else {
             this.setHit(false, x, y);
+            System.out.println("Manqué.");
             return Hit.MISS;
         }
     }

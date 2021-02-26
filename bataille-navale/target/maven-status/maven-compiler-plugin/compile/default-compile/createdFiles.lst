@@ -5,9 +5,11 @@ ensta\ColorUtil$Color.class
 ensta\Battleship.class
 ensta\Hit.class
 ensta\InputHelper$CoordInput.class
+ensta\TestGame.class
 ensta\IBoard.class
 ensta\Destroyer.class
 ensta\TestPlayer.class
+ensta\BattleShipsAI.class
 ensta\ColorUtil.class
 ensta\AbstractShip.class
 ensta\TestBoard.class
