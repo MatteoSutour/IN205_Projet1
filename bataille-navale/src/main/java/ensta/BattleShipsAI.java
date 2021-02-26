@@ -163,7 +163,7 @@ public class BattleShipsAI implements Serializable {
         int iy = y;
 
         for (int i = 0; i < ship.getTaille(); ++i) {
-            if (board.hasShip(iy, ix)) {
+            if (board.hasShip(ix, iy)) {
                 return false;
             }
             ix += dx;
@@ -178,7 +178,7 @@ public class BattleShipsAI implements Serializable {
     }
 
     private boolean isUndiscovered(int x, int y) {
-        return x >= 0 && x < size && y >= 0 && y < size && board.getHit(y, x) == null;
+        return x >= 0 && x < size && y >= 0 && y < size && board.getHit(x, y) == null;
     }
 
     private int[] pickRandomCoord() {

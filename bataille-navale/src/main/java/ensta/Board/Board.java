@@ -50,7 +50,7 @@ public class Board implements IBoard{
                 System.out.print(" ");
             }
             for (int j = 1; j <= taille; j++){
-                if (this.hasShip(i-1, j-1)) System.out.print(this.navires[i-1][j-1].toString() + " ");
+                if (this.hasShip(j-1, i-1)) System.out.print(this.navires[i-1][j-1].toString() + " ");
                 else System.out.print(". ");
             }
             System.out.print(nString(4, " "));
@@ -59,9 +59,9 @@ public class Board implements IBoard{
                 System.out.print(" ");
             }
             for (int j = 1; j <= taille; j++){
-                if (this.getHit(i-1, j-1) == null) System.out.print(". ");
-                else if (this.getHit(i-1, j-1) == false) System.out.print("X ");
-                else if (this.getHit(i-1, j-1) == true) System.out.print(ColorUtil.colorize("X ", ColorUtil.Color.RED));
+                if (this.getHit(j-1, i-1) == null) System.out.print(". ");
+                else if (this.getHit(j-1, i-1) == false) System.out.print("X ");
+                else if (this.getHit(j-1, i-1) == true) System.out.print(ColorUtil.colorize("X ", ColorUtil.Color.RED));
             }
             System.out.println();
         }
@@ -81,22 +81,22 @@ public class Board implements IBoard{
             }
             if (ship.orientation == Orientation.NORTH){
                 for (int i = y; i > y - ship.taille; i--){
-                    if (this.hasShip(i, x)) throw new Exception("[Exception] Bateaux se chevauchent.");
+                    if (this.hasShip(x, i)) throw new Exception("[Exception] Bateaux se chevauchent.");
                 }
             }
             if (ship.orientation == Orientation.SOUTH){
                 for (int i = y; i < y + ship.taille; i++){
-                    if (this.hasShip(i, x)) throw new Exception("[Exception] Bateaux se chevauchent.");
+                    if (this.hasShip(x, i)) throw new Exception("[Exception] Bateaux se chevauchent.");
                 }
             }
             if (ship.orientation == Orientation.EAST){
                 for (int j = x; j < x + ship.taille; j++){
-                    if (this.hasShip(y, j)) throw new Exception("[Exception] Bateaux se chevauchent.");
+                    if (this.hasShip(j, y)) throw new Exception("[Exception] Bateaux se chevauchent.");
                 }
             }
             if (ship.orientation == Orientation.WEST){
                 for (int j = x; j > x - ship.taille; j--){
-                    if (this.hasShip(y, j)) throw new Exception("[Exception] Bateaux se chevauchent.");
+                    if (this.hasShip(j, y)) throw new Exception("[Exception] Bateaux se chevauchent.");
                 }
             }
         }
@@ -127,7 +127,7 @@ public class Board implements IBoard{
     }
 
     public boolean hasShip(int x, int y){
-        if (this.navires[x][y] != null) return true;
+        if (this.navires[y][x] != null) return true;
         else return false;
     }
 
@@ -136,11 +136,11 @@ public class Board implements IBoard{
     }
 
     public Boolean getHit(int x, int y){
-        return this.frappes[x][y];
+        return this.frappes[y][x];
     }
 
     public Hit sendHit(int x, int y){
-        if (this.hasShip(y, x)){
+        if (this.hasShip(x, y)){
             this.setHit(true, x, y);
             navires[y][x].addStrike();
             if (navires[y][x].isSunk()){
